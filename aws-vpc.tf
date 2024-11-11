@@ -136,8 +136,8 @@ resource "aws_security_group" "huerta_ecs_sg" {
   }
 
   ingress {
-    from_port   = 8080  # Ajusta este puerto si es necesario
-    to_port     = 8080
+    from_port   = 4000 
+    to_port     = 4000
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }

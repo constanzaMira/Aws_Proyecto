@@ -7,10 +7,10 @@ resource "aws_security_group" "rds_sg" {
 
   # Regla de entrada: permite solo tráfico desde ciertas IPs o subnets
   ingress {
-    from_port   = 5432
-    to_port     = 5432
-    protocol    = "tcp"
-    cidr_blocks     = [aws_subnet.private_subnet_1.cidr_block, aws_subnet.private_subnet_2.cidr_block]  
+    from_port       = 5432
+    to_port         = 5432
+    protocol        = "tcp"
+    security_groups = [aws_security_group.huerta_ecs_sg.id]
   }
 
   # Regla de salida: permite todas las conexiones de salida
