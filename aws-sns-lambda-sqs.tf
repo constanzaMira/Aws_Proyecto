@@ -1,5 +1,5 @@
 
-# Step 1: IAM Role for IoT Rule to Access SQS #
+#IAM Role for IoT Rule to Access SQS #
 resource "aws_iam_role" "iot_to_sqs_role" {
   name = "iot_to_sqs_role_test"
   assume_role_policy = jsonencode({
@@ -35,7 +35,7 @@ resource "aws_iam_role_policy_attachment" "iot_to_sqs_attach" {
   policy_arn = aws_iam_policy.iot_to_sqs_policy.arn
 }
 
-# Step 2: IoT Rule to Send Data to SQS #
+# IoT Rule to Send Data to SQS #
 resource "aws_iot_topic_rule" "send_data_to_sqs" {
   name        = "SendDataToSQS_test"
   description = "Send data from raspi/alert topic to SQS"
@@ -56,7 +56,7 @@ resource "aws_sqs_queue" "alert_sqs" {
   visibility_timeout_seconds = 30
 }
 
-# Step 4: IAM Role for Lambda to Access SQS, RDS, SNS, and SES #
+# IAM Role for Lambda to Access SQS, RDS, SNS, and SES #
 resource "aws_iam_role" "lambda_execution_role" {
   name = "lambda_to_sns_role_test"
   assume_role_policy = jsonencode({
@@ -118,7 +118,7 @@ resource "aws_iam_role_policy_attachment" "lambda_policy_attachment" {
   policy_arn = aws_iam_policy.lambda_policy.arn
 }
 
-# Step 5: Lambda Function #
+# Lambda Function #
 resource "aws_lambda_function" "lambda_to_sns" {
   function_name    = "lambda_to_sns_test"
   handler          = "lambda_function.lambda_handler"
@@ -139,7 +139,7 @@ resource "aws_lambda_function" "lambda_to_sns" {
   layers = ["arn:aws:lambda:us-east-2:898466741470:layer:psycopg2-py38:1"]
 }
 
-# Step 6: Lambda Trigger for SQS #
+# Lambda Trigger for SQS #
 resource "aws_lambda_event_source_mapping" "lambda_sqs_trigger" {
   event_source_arn = aws_sqs_queue.alert_sqs.arn
   function_name    = aws_lambda_function.lambda_to_sns.arn
